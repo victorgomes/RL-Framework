@@ -16,3 +16,7 @@ which contains an integer identifier, as parameters and return a double.
 
 The second package, main, contains the keys of this framework: 
 two interfaces, IAgent and IEnvironment.
+
+To run the project:
+javac Main.java
+java Main
