@@ -1,0 +1,18 @@
+This framework was created in order to compare different 
+Reinforcement Learning algorithms. 
+
+The key principle here is to encapsulate what really changes 
+(the agent and the environment), so later one can alter it 
+without affect what it doesn’t change (the interaction between 
+the agent and the environment.
+
+The framework is quite simple, there are just two packages. 
+The first one, tools, contains all functions that one may need 
+to develop a RL algorithm, like the value functions, 
+V (s) and Q(s, a); the transition function, T (s, a, s); 
+and the reward function, R(s, a). 
+Those classes model a fuction that use the State and Action class, 
+which contains an integer identifier, as parameters and return a double.
+
+The second package, main, contains the keys of this framework: 
+two interfaces, IAgent and IEnvironment.
