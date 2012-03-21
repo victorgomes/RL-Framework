@@ -2,6 +2,10 @@ package gridworld;
 
 import rlf.main.*;
 import rlf.tools.*;
+import utils.*;
+
+import java.util.*;
+
 
 /**
  * @author Victor
@@ -32,22 +36,26 @@ public class GridWorld implements IEnvironment {
         maxSteps = 50;
     }
     
-    public GridWorld(Agent agent, Maze maze) {
-		this.agent = agent;
+    public GridWorld(Essay essay, Maze maze) {
+		this.agent = essay.getAgent();
 		
 		this.height = maze.getHeight();
 		this.width = maze.getWidth();
 		
 		this.maze = maze;
 		
-		agentInitState = new GridState(0,0);
-        goalState = new GridState(height-1, width-1);
-        maxSteps = 50;
+		agentInitState = (GridState) essay.getStartState();
+        goalState = (GridState) essay.getGoalState();
+        maxSteps = essay.getMaxSteps();
 	}
 
     @Override
     public State init() {
-        return agentState = agentInitState;
+		// Random init
+		Random random = new Random();
+		return agentState = new GridState(random.nextInt(width),
+			random.nextInt(height));
+        //return agentState = agentInitState;
     }
 
     @Override
@@ -79,8 +87,8 @@ public class GridWorld implements IEnvironment {
     }
     
     protected boolean reachGoalState(GridState state) {
-		System.out.println("State = (" + state.getX() + "," + state.getY() + ")");
-		System.out.println("GoalState = (" + goalState.getX() + "," + goalState.getY() + ")");
+		//System.out.println("State = (" + state.getX() + "," + state.getY() + ")");
+		//System.out.println("GoalState = (" + goalState.getX() + "," + goalState.getY() + ")");
         return state.equals(goalState);
     }
 

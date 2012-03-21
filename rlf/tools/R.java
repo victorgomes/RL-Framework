@@ -1,32 +1,26 @@
 package rlf.tools;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  *
  * @author Victor
  */
 public class R {
-    protected TreeMap<State, TreeMap<Action, Double>> r;  
+    protected TreeMap<StateActionPair, Double> r;  
     
     public R() {
-        r = new TreeMap<State, TreeMap<Action, Double>>();
+        r = new TreeMap<StateActionPair, Double>();
     }
     
     public double get(State s, Action a) {
-        return r.get(s).get(a);
+		StateActionPair key = new StateActionPair(s,a);
+        if (r.containsKey(key))
+			return r.get(key);
+		return 0;
     }
     
     public void set(State s, Action a, double d) {
-        TreeMap<Action, Double> actions = r.get(s);
-        
-        if (actions == null) {
-            actions = new TreeMap<Action, Double>();
-            r.put(s, actions);
-        }
-        
-        actions.put(a, d);        
+        r.put(new StateActionPair(s,a),d);       
     }
 }

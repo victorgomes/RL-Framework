@@ -29,7 +29,7 @@ public class EssayFileDialog extends JDialog implements ActionListener {
 		// Easy panel
         JPanel pEasyFile = new JPanel(new BorderLayout(5, 5));
         pEasyFile.add(new JLabel("Choose Essay XML file: "), BorderLayout.WEST);
-        textField.setText("/mnt/Data/Documents/Estudo/University of Sheffield/Research Project/Framework/essays/exp1.xml");
+        textField.setText("/home/victor/RL-Framework/essays/exp1.xml");
         pEasyFile.add(textField, BorderLayout.CENTER);
         JButton dotButton = new JButton("...");
         dotButton.addActionListener(this);

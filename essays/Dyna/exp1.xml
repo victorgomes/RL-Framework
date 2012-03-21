@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf8"?>
+
+<essay id="1">
+	
+<maxSteps>20</maxSteps>
+<episodes>200</episodes>
+<trials>500</trials>
+
+<startState x="0" y="0" />
+<goalState x="3" y="3" />
+
+<agent type="Dyna">
+	<alpha>0.05</alpha>
+	<gamma>0.9</gamma>
+	<epsilon>0.5</epsilon>
+	<k>50</k>
+</agent>
+
+<environment id="1">
+	<width>4</width>
+	<height>4</height>
+	<!-- Walls:
+		E: 1
+		N: 2
+		W: 4
+		S: 8
+	-->
+	<maze>
+		6  2  2  3
+		4  0  0  1
+		4  0  0  1
+		12 8  8  9
+	</maze>
+</environment>
+
+</essay>

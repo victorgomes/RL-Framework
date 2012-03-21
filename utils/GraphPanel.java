@@ -2,6 +2,7 @@ package utils;
 
 import java.awt.*;
 import java.awt.font.*;
+import java.awt.image.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
@@ -19,14 +20,35 @@ public class GraphPanel extends JPanel {
 	
 	protected double [] data;
 	
-	public GraphPanel(double data[]) {
+	public GraphPanel(double data[]) {		
 		this.data = data;
+	}
+	
+	public RenderedImage getImage() {
+		int width = this.getWidth();
+		int height = this.getHeight();
+
+		// Create a buffered image in which to draw
+		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		// Create a graphics contents on the buffered image
+		Graphics2D g2d = bufferedImage.createGraphics();
+
+		// Draw graphics
+		paintGraph(g2d);
+
+		// Graphics context no longer needed so dispose it
+		g2d.dispose();
+
+		return bufferedImage;
 	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
-		
+		paintGraph((Graphics2D)g); 
+    }
+    
+    protected void paintGraph(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
 		
@@ -134,8 +156,7 @@ public class GraphPanel extends JPanel {
 			 
 		}
 		g2.draw(new Line2D.Double(leftPad - unitSize, topPad, leftPad, topPad));
-        
-    }
+	}
 
     private double getMax() {
         double max = Double.MIN_VALUE;

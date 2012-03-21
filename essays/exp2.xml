@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf8"?>
+
+<essay id="1">
+	
+<maxSteps>50</maxSteps>
+<episodes>500</episodes>
+<trials>500</trials>
+
+<startState x="0" y="0" />
+<goalState x="7" y="7" />
+
+<agent type="Sarsa">
+	<gamma>0.9</gamma>
+	<alpha>0.05</alpha>
+	<epsilon>0.1</epsilon>
+	<lamda>0.9</lamda>
+</agent>
+
+<environment id="2">
+	<width>8</width>
+	<height>8</height>
+	<!-- Walls:
+		E: 1
+		N: 2
+		W: 4
+		S: 8
+	-->
+	<maze>
+		6  2  2  2  2  2  2  3
+		4  0  0  0  0  0  0  1
+		4  0  0  0  0  0  0  1
+		4  0  0  0  0  0  0  1
+		4  0  0  0  0  0  0  1
+		4  0  0  0  0  0  0  1
+		4  0  0  0  0  0  0  1
+		12 8  8  8  8  8  8  9
+	</maze>
+</environment>
+
+</essay>

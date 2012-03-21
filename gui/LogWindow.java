@@ -10,6 +10,14 @@ import java.awt.image.BufferStrategy;
 import rlf.main.*;
 import utils.*;
 
+/**
+ * Log window showing step x reward per trial
+ * 
+ * @author Victor BF Gomes <vborgesferreiragomes1@sheffield.ac.uk>
+ * @version 1.1
+ * @since 2012-03-04
+ * 
+ */
 public class LogWindow extends JFrame implements ActionListener {
 	
 	public static final long serialVersionUID = 1L;
@@ -107,12 +115,7 @@ public class LogWindow extends JFrame implements ActionListener {
         if(e.getActionCommand().equalsIgnoreCase("exit"))
             System.exit(0);
         else if(e.getActionCommand().equalsIgnoreCase("show step graph")) {
-			JFrame f = new JFrame();
-			f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			f.add(new GraphPanel(normalize(steps)));
-			f.setSize(400,400);
-			f.setLocation(200,200);
-			f.setVisible(true);
+			new GraphFrame(normalize(steps));
 		} else if(e.getActionCommand().equalsIgnoreCase("show reward graph")) {
 			JFrame f = new JFrame();
 			f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -132,6 +135,7 @@ public class LogWindow extends JFrame implements ActionListener {
 
 	public void showInfo(String data) {
 		textArea.append(data);
+		textArea.setCaretPosition(textArea.getDocument().getLength());
 		this.validate();
 	}
 }

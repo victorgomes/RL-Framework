@@ -34,6 +34,27 @@ public class Essay {
 	protected Essay() {
 	}
 	
+	private static String getString(Element elem, String tagName) {
+		NodeList list = elem.getElementsByTagName(tagName);
+		if (list.getLength() < 1)
+			return null;
+		return 	list.item(0).getChildNodes().item(0).getNodeValue().trim();
+	}
+	
+	private static int getInteger(Element elem, String tagName) {
+		String str = getString(elem, tagName);
+		if (str == null)
+			return 0;
+		return Integer.parseInt(str);
+	}
+	
+	private static double getDouble(Element elem, String tagName) {
+		String str = getString(elem, tagName);
+		if (str == null)
+			return 0.0;
+		return Double.parseDouble(str);
+	}
+	
 	public static Essay readEssay(String filename) {
 		try {
 			// Create XML document
@@ -55,20 +76,9 @@ public class Essay {
 			// Set essay
 			essay.id = Integer.parseInt(root.getAttribute("id"));
 			
-			essay.maxSteps = Integer.parseInt( root
-				.getElementsByTagName("maxSteps").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-			
-			essay.episodes = Integer.parseInt( root
-				.getElementsByTagName("episodes").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-				
-			essay.trials = Integer.parseInt( root
-				.getElementsByTagName("trials").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
+			essay.maxSteps = getInteger(root, "maxSteps");
+			essay.episodes = getInteger(root, "episodes");
+			essay.trials = getInteger(root, "trials");
 				
 			Element startStateElement = (Element) root.
 				getElementsByTagName("startState").item(0);			
@@ -84,39 +94,29 @@ public class Essay {
 			
 			// Instantiate agent
 			double gamma, alpha, epsilon, lambda = 0;
+			int k = 0;
 			
 			Element agentElement = (Element)root
 				.getElementsByTagName("agent").item(0);
 			
-			gamma = Double.parseDouble( agentElement
-				.getElementsByTagName("gamma").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-				
-			alpha = Double.parseDouble( agentElement
-				.getElementsByTagName("alpha").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-				
-			epsilon = Double.parseDouble( agentElement
-				.getElementsByTagName("epsilon").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-				
-			NodeList lambdaNodeList = agentElement.getElementsByTagName("lambda");
-			if (lambdaNodeList.getLength() > 0)
-				lambda = Double.parseDouble( lambdaNodeList.item(0)
-					.getChildNodes().item(0)
-					.getNodeValue().trim());
+			gamma = getDouble(agentElement, "gamma");
+			alpha = getDouble(agentElement, "alpha");
+			epsilon = getDouble(agentElement, "epsilon");			
+			lambda = getDouble(agentElement, "lambda");
+			k = getInteger(agentElement, "k");
 			
 			String agentType = agentElement.getAttribute("type");
 			
 			if (agentType.equals("QLearning"))
 				essay.agent = new QLearning(gamma, alpha, epsilon);
 			else if (agentType.equals("Sarsa"))
-				essay.agent = new Sarsa(gamma, alpha, epsilon, 0.5);
+				essay.agent = new Sarsa(gamma, alpha, epsilon);
 			else if (agentType.equals("QLearningLambda"))
 				essay.agent = new QLearningLambda(gamma, alpha, epsilon, lambda);
+			else if (agentType.equals("SarsaLambda"))
+				essay.agent = new SarsaLambda(gamma, alpha, epsilon, lambda);
+			else if (agentType.equals("Dyna"))
+				essay.agent = new Dyna(gamma, alpha, epsilon, k);
 			else
 				throw new Exception("Unknown Agent type");
 				
@@ -127,23 +127,13 @@ public class Essay {
 			Element worldElement = (Element)root
 				.getElementsByTagName("environment").item(0);
 			
-			width = Integer.parseInt( worldElement
-				.getElementsByTagName("width").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-			
-			height = Integer.parseInt( worldElement
-				.getElementsByTagName("height").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim());
-				
-			String strMaze = worldElement
-				.getElementsByTagName("maze").item(0)
-				.getChildNodes().item(0)
-				.getNodeValue().trim();
+			width = getInteger(worldElement, "width");
+			height = getInteger(worldElement, "height");
+			String strMaze = getString(worldElement, "maze");
+
 				
 			Maze maze = new Maze (width, height, strMaze);	
-			essay.environment = new GridWorld(essay.agent, maze);
+			essay.environment = new GridWorld(essay, maze);
 			
 			return essay;
 		

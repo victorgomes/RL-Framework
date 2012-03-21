@@ -10,33 +10,18 @@ import rlf.tools.State;
  *   where predicted_value = r_(t+1) + gamma * Q(s_(t+1),a_(t+1))
  * 
  * @author Victor BF Gomes <vborgesferreiragomes1@sheffield.ac.uk>
- * @version 1.1
+ * @version 1.0
  * @since 2012-03-04
  * 
  */
-public class Sarsa extends ModelFree {
+public class SarsaLambda extends Sarsa {
     /**
      * @param gamma     Reward discount factor (between 0 and 1)
      * @param alpha     Learning rate (between 0 and 1)
      * @param epsilon   Epsilon parameter for e-greedy policy (between 0 and 1)
      * @param lambda	SARSA(lambda) algorithm parameter
      */
-    public Sarsa (double gamma, double alpha, double epsilon) {
-        super(gamma, alpha, epsilon);
-    }
-    
-    protected Sarsa (double gamma, double alpha, double epsilon, double lambda) {
-		super (gamma, alpha, epsilon, lambda);
-	}
-
-	/**
-	 * prediction = Q(s_(t+1),a_(t+1))
-	 * 
-     * @return predicted reward for the current step
-     */
-    @Override
-    protected double predict(State newState, Action action) {
-        return q.get(newState, action);
-    }  
-    
+    public SarsaLambda (double gamma, double alpha, double epsilon, double lambda) {
+        super(gamma, alpha, epsilon, lambda);
+    }    
 }
